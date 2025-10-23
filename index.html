@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hi Addy!</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0; 
+        }
+
+        body {
+            background-color: pink;
+            display: flex;
+            align-items: center;    
+            justify-content: center; 
+        }
+
+        p {
+             margin: 0; 
+             text-align: center;
+             font-size: 3rem;
+        }
+
+        /* simple utility */
+        .hidden { display: none !important; }
+
+        /* button styling */
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            margin: 0;
+            background-color: purple;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: opacity .12s ease, transform .06s ease;
+        }
+        .btn:active { opacity: .7; transform: translateY(1px); }
+
+        /* revealed content layout + animation */
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        .reveal {
+            text-align: center;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity .32s ease, max-height .4s ease;
+            width: 100%;
+            display: block;
+        }
+        .reveal.show {
+            opacity: 1;
+            max-height: 1200px; /* large enough for content */
+        }
+
+        /* make the revealed image smaller and responsive, centered */
+        .reveal img {
+            max-width: 320px; /* limit size */
+            width: 90%;        /* scale down on small screens */
+            height: auto;
+            margin-top: 1rem;
+            border-radius: 8px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+    <link rel="icon" type="image/png" sizes="32x32" href="kitten.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="kitten-16.png">
+    <meta name="theme-color" content="#ffccdd">
+</head>
+<body>
+    <div id="container">
+        <!-- initial button: will disappear when clicked -->
+        <button id="showBtn" type="button" class="btn">Click me</button>
+
+        <!-- content to reveal (hidden initially).
+             Save your image next to index.html as "kitten.png" or change the src below. -->
+        <div id="revealed" class="reveal" aria-hidden="true">
+            <p id="revealText">If your name is Addy Kipp, will you be Lucas's Girlfriend?</p>
+            <!-- set the src to your image filename (kitten.png is suggested) -->
+            <img id="revealImg" src="kitten.png" alt="Revealed image" />
+        </div>
+    </div>
+
+    <script>
+        // When the button is clicked, hide the button and show the paragraph + image.
+        (function () {
+            var btn = document.getElementById('showBtn');
+            var revealed = document.getElementById('revealed');
+            var revealImg = document.getElementById('revealImg');
+
+            btn.addEventListener('click', function () {
+                // Toggle revealed content
+                var isShown = revealed.classList.toggle('show');
+
+                // Update ARIA and button label for accessibility
+                revealed.setAttribute('aria-hidden', isShown ? 'false' : 'true');
+                btn.setAttribute('aria-expanded', isShown ? 'true' : 'false');
+                btn.textContent = isShown ? 'Hide content' : 'Show content';
+
+                // If the image src is empty, optionally set it here (uncomment to auto-set)
+                // if (!revealImg.src) revealImg.src = 'kitten.png';
+            });
+        })();
+    </script>
+</body>
+</html>
